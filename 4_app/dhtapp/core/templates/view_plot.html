@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Plot</title>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  </head>
+  <body>
+
+    <div id="container" data-url="{% url 'plot' %}"></div>
+    <!-- <div id="printer"></div> -->
+
+    <!-- JS works on loaded DOM elements and shall be at html page bottom -->
+    <script>
+    $(function renderPlot(){
+      $.ajax({
+        type: "GET",
+        url: $("#container").attr("data-url"),
+        dataType: 'json',
+        success: function (data) {
+          Highcharts.chart("container", data);
+        }
+      });
+      setTimeout(renderPlot, 20000); // schedule a repeat: renderplot triggers itself
+    })
+    </script>
+  </body>
+</html>

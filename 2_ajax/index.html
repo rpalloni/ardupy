@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" charset="utf-8">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="style.css" rel="stylesheet" type="text/css"/>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <title>Arduino - DHT22</title>
+</head>
+
+<body>
+  <h1>DHT22 sensor data</h1>
+  <div id="temperature"></div>
+  <div id="humidity"></div>
+  <div id="hic"></div>
+  <!--  <button type="button" name="button" onclick="refreshData()">Refresh</button> -->
+</body>
+
+<!-- JS works on loaded DOM elements and shall be at html page bottom -->
+<script type="text/javascript">
+  /*
+  You cannot make a AJAX call to a local resource as the request is made using HTTP.
+  A workaround is to run a local webserver, serve up the file and make the AJAX call to localhost.
+  */
+  $(function refreshData(){
+    $.ajax({
+      type: "get",
+      url: "tmpdata.json", // data from temporary file
+      dataType: "json",
+      success: function(data) {
+        // json data from server: {"temperature": "29.80", "humidity": "52.60", "hic": "31.16"}
+        // JSON.stringify turns a json object into a string: '{"temperature": "29.80", "humidity": "52.40", "hic": "31.13"}'
+        // JSON.parse turns a json string into a JS object: { temperature: "29.80", humidity: "52.60", hic: "31.16" }
+        // console.log(data);
+        // var d = JSON.parse(JSON.stringify(data));
+        document.getElementById('temperature').innerHTML =  `<p><i class='fas fa-thermometer-half' style='color:#059e8a;'></i> <span class='dht-labels'>Temperature: ${ data.temperature } &deg;C</sup></p>`;
+        document.getElementById('humidity').innerHTML = `<p><i class='fas fa-tint' style='color:#00add6;'></i> <span class='dht-labels'>Humidity: ${ data.humidity } %</sup></p>`;
+        document.getElementById('hic').innerHTML = `<p><i class='fas fa-sun' style='color:#ffbf00;'></i> <span class='dht-labels'>Heat index: ${ data.hic } &deg;C</sup></p>`;
+      },
+      error: function(request, status, error) {
+        console.log(status);
+      }
+    });
+    setTimeout(refreshData, 20000); // schedule a repeat: refreshData triggers itself
+  })
+</script>
+
+</html>

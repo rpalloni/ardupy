@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta name='viewport' content='width=device-width, initial-scale=1' charset="utf-8">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.2/css/all.css'>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+  <title>Arduino - DHT22</title>
+</head>
+
+<body>
+  <h1>DHT22 sensor data</h1>
+  <div id="printer"></div>
+  <canvas id="graph" height="500" width="700" />
+</body>
+<script type="text/javascript">
+
+  function getData(callback) {
+      $.ajax({
+          type: 'get',
+          url: '/getdata.py',
+          dataType: 'json',
+          success: callback,
+          error: function(request, status, error) {
+            alert(status);
+          }
+      });
+  }
+
+  $(function() {
+
+    getData(function(dataset) {
+
+      function seriesTemperature() {
+        var x = dataset.map(function(dt) {return {x: dt.time}});
+        var y = dataset.map(function(dt) {return {y: dt.temperature}});
+        var series = [];
+
+        for (var i = 0; i < x.length; i++) {
+          series.push(Object.assign({}, x[i], y[i]));
+        }
+        return series;
+      }
+
+      function seriesHumidity() {
+        var x = dataset.map(dt => {return {x: dt.time}});
+        var y = dataset.map(dt =>  {return {y: dt.humidity}});
+        var series = [];
+
+        for (var i = 0; i < x.length; i++) {
+          series.push(Object.assign({}, x[i], y[i]));
+        }
+        return series;
+      }
+
+      var canvas = document.getElementById("graph");
+      var graphParams = {
+        type: "line",
+        data: {
+          datasets: [{
+              label: "Temperature (°C)",
+              data: seriesTemperature(),
+              borderColor: "red",
+              backgroundColor: "transparent",
+              pointRadius: 0,
+              fill: false,
+              lineTension: 0,
+              borderWidth: 2
+            },
+            {
+              label: "Humidity (%)",
+              data: seriesHumidity(),
+              borderColor: "blue",
+              backgroundColor: "transparent",
+              pointRadius: 0,
+              fill: false,
+              lineTension: 0,
+              borderWidth: 2
+            }
+          ]
+        },
+
+        options: {
+          maintainAspectRatio: false,
+          responsive: false,
+          scales: {
+            xAxes: [{
+              type: "time",
+              distribution: "series",
+              scaleLabel: {
+                display: true,
+                labelString: 'Time'
+              }
+            }],
+            yAxes: [{
+              gridLines: {
+                drawBorder: false
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Arduino data'
+              }
+            }],
+          }
+        }
+
+      }
+      ctx = new Chart(canvas, graphParams);
+    });
+
+  });
+</script>
+
+</html>
