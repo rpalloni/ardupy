@@ -2,7 +2,7 @@
 ## Temperature/Humidity IoT project with Arduino+DHT22+Python3
 
 Main purpose:
-The project allows to monitor temperature, humidity and heat index using a DHT22 sensor connected to an Arduino board sending information to a basic Python server and available to clients within the same LAN through a simple web app. There are four project version of increasing complexity around the following idea:
+The project allows to monitor temperature, humidity and heat index using a DHT22 sensor connected to an Arduino board sending information to a basic Python server and available to clients within the same LAN through a simple web app. There are four project versions of increasing complexity around the following idea:
 
 ![image](https://user-images.githubusercontent.com/17080117/119189732-b7f61180-ba7c-11eb-95ca-e692b4ce204e.png)
 
