@@ -15,6 +15,8 @@
   <div id="temperature"></div>
   <div id="humidity"></div>
   <div id="hic"></div>
+  <br>
+  <div id="time"></div>
   <!--  <button type="button" name="button" onclick="refreshData()">Refresh</button> -->
 </body>
 
@@ -38,6 +40,7 @@
         document.getElementById('temperature').innerHTML =  `<p><i class='fas fa-thermometer-half' style='color:#059e8a;'></i> <span class='dht-labels'>Temperature: ${ data.temperature } &deg;C</sup></p>`;
         document.getElementById('humidity').innerHTML = `<p><i class='fas fa-tint' style='color:#00add6;'></i> <span class='dht-labels'>Humidity: ${ data.humidity } %</sup></p>`;
         document.getElementById('hic').innerHTML = `<p><i class='fas fa-sun' style='color:#ffbf00;'></i> <span class='dht-labels'>Heat index: ${ data.hic } &deg;C</sup></p>`;
+        document.getElementById('time').innerHTML = `<p class='time'>Time: ${ new Date(Date.now()).toLocaleString() }</p>`;
       },
       error: function(request, status, error) {
         console.log(status);

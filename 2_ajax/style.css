@@ -19,3 +19,7 @@ p {
   vertical-align: middle;
   padding-bottom: 15px;
 }
+
+.time {
+  font-size: 1.2rem;
+}

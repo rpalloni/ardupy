@@ -7,6 +7,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import logging
 import os
 import mimetypes # text/html; text/css
+import time
 
 # ASCII color codes
 class bcolors:
@@ -44,8 +45,9 @@ class ArduinoWebServer(BaseHTTPRequestHandler):
         temperature = f"<p><i class='fas fa-thermometer-half' style='color:#059e8a;'></i> <span class='dht-labels'>Temperature: {d['temperature']}&deg;C</p>"
         humidity = f"<p><i class='fas fa-tint' style='color:#00add6;'></i> <span class='dht-labels'>Humidity: {d['humidity']}%</p>"
         hic_index = f"<p><i class='fas fa-sun' style='color:#ffbf00;'></i> <span class='dht-labels'>Heat index: {d['hic']}&deg;C</p>"
+        time = f"<br><p>Time: {datetime.now()}</p>"
         footer = "</div></body></html>"
-        output = file + header + body + temperature + humidity + hic_index + footer
+        output = file + header + body + temperature + humidity + hic_index + time + footer
         with open(self._set_fspath(), 'w') as f:
             f.write(output)
 
