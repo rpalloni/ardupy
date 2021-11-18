@@ -42,7 +42,7 @@ def chart_data(request):
     data = {"dhtdata": list(d.values())}
     # compose a dict with the whole set of information to create the plot
     # input for Highcharts.chart() function
-    chart = {
+    chart_temp = {
         'title': {'text': 'DHT22 Sensor Data - Powered by Arduino'},
         'series': [
             {
@@ -65,5 +65,23 @@ def chart_data(request):
             }
         },
     }
+
+    chart_hum = {
+        'title': {'text': 'DHT22 Sensor Data - Powered by Arduino'},
+        'series': [
+            {
+                'name': 'Humidity (%)',
+                'data': list(map(lambda x: float(x['data']['humidity']), [d for d in data['dhtdata']]))
+            }
+        ],
+        'xAxis': {
+            'categories': list(map(lambda x: x['time'], [d for d in data['dhtdata']])),
+            'labels':{
+                'rotation': 90,
+            }
+        },
+    }
+
+    chart = {'temp':chart_temp, 'hum': chart_hum}
 
     return JsonResponse(chart)

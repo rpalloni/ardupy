@@ -8,7 +8,10 @@
   </head>
   <body>
 
-    <div id="container" data-url="{% url 'plot' %}"></div>
+    <div id="container" data-url="{% url 'plot' %}">
+      <div id="plot_temp"></div>
+      <div id="plot_hum"></div>
+    </div>
     <!-- <div id="printer"></div> -->
 
     <!-- JS works on loaded DOM elements and shall be at html page bottom -->
@@ -19,10 +22,11 @@
         url: $("#container").attr("data-url"),
         dataType: 'json',
         success: function (data) {
-          Highcharts.chart("container", data);
+          Highcharts.chart("plot_temp", data['temp']);
+          Highcharts.chart("plot_hum", data['hum']);
         }
       });
-      setTimeout(renderPlot, 20000); // schedule a repeat: renderplot triggers itself
+      setTimeout(renderPlot, 60000); // schedule a repeat: renderplot triggers itself
     })
     </script>
   </body>
