@@ -43,7 +43,8 @@ def chart_data(request):
     # compose a dict with the whole set of information to create the plot
     # input for Highcharts.chart() function
     chart_temp = {
-        'title': {'text': 'DHT22 Sensor Data - Powered by Arduino'},
+        'title': {'text': 'Temperature (C°) and HIC (C°)'},
+        'subtitle': {'text': 'DHT22 Sensor Data - Powered by Arduino'},
         'series': [
             {
                 'name': 'Temperature (C°)',
@@ -67,7 +68,8 @@ def chart_data(request):
     }
 
     chart_hum = {
-        'title': {'text': 'DHT22 Sensor Data - Powered by Arduino'},
+        'title': {'text': 'Humidity %'},
+        'subtitle': {'text': 'DHT22 Sensor Data - Powered by Arduino'},
         'series': [
             {
                 'name': 'Humidity (%)',
