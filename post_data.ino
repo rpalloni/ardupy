@@ -13,17 +13,15 @@ char ssid[] = "YourWiFiSSID";
 char pass[] = "YourWiFiPWD";
 
 // server settings
-// LAN IP: hostname -I
-char serverAddress[] = "192.168.1.105";
-int serverPort = 8080;
-
-// run server
-// cd to server.py folder > python3 server.py 8080
+char serverAddress[] = "YourLocalIP"; // LAN IP: hostname -I
+int serverPort = YourLocalPort;
 
 WiFiClient wifi;
 HttpClient client = HttpClient(wifi, serverAddress, serverPort);
 int status = WL_IDLE_STATUS;
 
+
+// connect to network (see Arduino Serial Monitor)
 void setup() {
   Serial.begin(9600);
   while ( status != WL_CONNECTED) {
@@ -45,18 +43,21 @@ void setup() {
 
   delay(2000);
   Serial.println("Reading temperature and humidity data...go to browser!");
-  dht.begin();
+  dht.begin(); // start sensor
 }
 
+
+// run
 void loop() {
 
+  // reading data from sensor
   float humidity = dht.readHumidity();
-  float temperature = dht.readTemperature();
+  float temperature = dht.readTemperature(); // Celsius
   float hic = dht.computeHeatIndex(temperature, humidity, false); // heat index Celsius
 
   // error if sensor values are empty
   if( isnan(humidity) || isnan(temperature) ) {
-    Serial.println("DHT Sensor read Failed!");
+    Serial.println("Reading DHT Sensor data failed!");
     return;
   }
 
@@ -64,8 +65,7 @@ void loop() {
   Serial.println("making POST request");
   String contentType = "application/x-www-form-urlencoded";
   String postData = "temperature="+String(temperature)+"&humidity="+String(humidity)+"&hic="+String(hic);
-
-  client.post("/store/", contentType, postData); // django view
+  client.post("/store/", contentType, postData); // django view endpoint
 
   // read the status code and body of the response from server
   int statusCode = client.responseStatusCode();
