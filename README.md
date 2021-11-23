@@ -25,8 +25,8 @@ OS and dev tools:
 * Atom IDE
 * Django 3.1
 
-1_base
+1_base \
 ![image](https://user-images.githubusercontent.com/17080117/119189972-05727e80-ba7d-11eb-98db-b0b3c4764aec.png)
 
-4_app
+4_app \
 ![image](https://user-images.githubusercontent.com/17080117/143103351-119cb041-af1e-4ea3-a534-a6a1de136593.png)
