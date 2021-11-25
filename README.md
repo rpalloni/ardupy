@@ -3,7 +3,7 @@
 
 Main purpose: \
 The project allows to monitor temperature, humidity and heat index using a DHT22 sensor connected to an Arduino board \
-sending information to a basic Python server and available to clients within the same LAN through a simple web app.   \
+sending information to a basic Python server and available to clients within the same LAN through a simple web app. \
 
 There are four project versions of increasing complexity around the following idea:
 
